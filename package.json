@@ -14,7 +14,7 @@
   "author": "Saray Sanchez",
   "license": "MIT",
   "dependencies": {
-    "mysql2": "^2.3.0",
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
   }
 }

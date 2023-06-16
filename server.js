@@ -67,7 +67,7 @@ function start() {
 
 // Function to view all departments
 function viewAllDepartments() {
-  connection.query("SELECT * FROM department", (err, results) => {
+  connection.query("SELECT * FROM departments", (err, results) => {
     if (err) throw err;
     console.table(results);
     start();
@@ -77,7 +77,9 @@ function viewAllDepartments() {
 // Function to view all roles
 function viewAllRoles() {
   connection.query(
-    "SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id",
+    `SELECT roles.id, roles.title, roles.salary, departments.name AS department 
+     FROM roles
+     LEFT JOIN departments ON roles.department_id = departments.id`,
     (err, results) => {
       if (err) throw err;
       console.table(results);
@@ -89,12 +91,12 @@ function viewAllRoles() {
 // Function to view all employees
 function viewAllEmployees() {
   const query = `
-    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary,
-    CONCAT(manager.first_name, ' ', manager.last_name) AS manager
-    FROM employee
-    LEFT JOIN role ON employee.role_id = role.id
-    LEFT JOIN department ON role.department_id = department.id
-    LEFT JOIN employee manager ON employee.manager_id = manager.id`;
+    SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary,
+    CONCAT(managers.first_name, ' ', managers.last_name) AS manager
+    FROM employees
+    LEFT JOIN roles ON employees.role_id = roles.id
+    LEFT JOIN departments ON roles.department_id = departments.id
+    LEFT JOIN employees managers ON employees.manager_id = managers.id`;
   connection.query(query, (err, results) => {
     if (err) throw err;
     console.table(results);
@@ -121,7 +123,7 @@ function addDepartment() {
     ])
     .then((answer) => {
       connection.query(
-        "INSERT INTO department SET ?",
+        "INSERT INTO departments SET ?",
         { name: answer.name },
         (err, result) => {
           if (err) throw err;
@@ -135,7 +137,7 @@ function addDepartment() {
 // Function to add a role
 function addRole() {
   // Retrieve the list of departments from the database
-  connection.query("SELECT * FROM department", (err, departments) => {
+  connection.query("SELECT * FROM departments", (err, departments) => {
     if (err) throw err;
 
     inquirer
@@ -176,7 +178,7 @@ function addRole() {
       ])
       .then((answer) => {
         connection.query(
-          "INSERT INTO role SET ?",
+          "INSERT INTO roles SET ?",
           {
             title: answer.title,
             salary: answer.salary,
@@ -195,10 +197,10 @@ function addRole() {
 // Function to add an employee
 function addEmployee() {
   // Retrieve the list of roles and employees from the database
-  connection.query("SELECT * FROM role", (err, roles) => {
+  connection.query("SELECT * FROM roles", (err, roles) => {
     if (err) throw err;
 
-    connection.query("SELECT * FROM employee", (err, employees) => {
+    connection.query("SELECT * FROM employees", (err, employees) => {
       if (err) throw err;
 
       inquirer
@@ -251,7 +253,7 @@ function addEmployee() {
         ])
         .then((answer) => {
           connection.query(
-            "INSERT INTO employee SET ?",
+            "INSERT INTO employees SET ?",
             {
               first_name: answer.firstName,
               last_name: answer.lastName,
@@ -272,10 +274,10 @@ function addEmployee() {
 // Function to update an employee role
 function updateEmployeeRole() {
   // Retrieve the list of employees and roles from the database
-  connection.query("SELECT * FROM employee", (err, employees) => {
+  connection.query("SELECT * FROM employees", (err, employees) => {
     if (err) throw err;
 
-    connection.query("SELECT * FROM role", (err, roles) => {
+    connection.query("SELECT * FROM roles", (err, roles) => {
       if (err) throw err;
 
       inquirer
@@ -301,7 +303,7 @@ function updateEmployeeRole() {
         ])
         .then((answer) => {
           connection.query(
-            "UPDATE employee SET ? WHERE ?",
+            "UPDATE employees SET ? WHERE ?",
             [{ role_id: answer.roleId }, { id: answer.employeeId }],
             (err, result) => {
               if (err) throw err;
