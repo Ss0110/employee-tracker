@@ -1,4 +1,5 @@
-const connection = require("../config/connection");
+const connection = require("../config/connections");
+const mysql = require("mysql2");
 
 class Employee {
   constructor(id, firstName, lastName, roleId, managerId) {

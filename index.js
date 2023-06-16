@@ -1,8 +1,8 @@
 // Require dependencies
 const inquirer = require("inquirer");
-const Employee = require("./employee");
-const Department = require("./department");
-const Role = require("./role");
+const Employee = require("./models/employee");
+const Department = require("./models/department");
+const Role = require("./models/role");
 
 // Menu prompt
 function promptMenu() {

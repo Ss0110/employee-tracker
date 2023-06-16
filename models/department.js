@@ -1,4 +1,5 @@
-const connection = require("../config/connection");
+const connection = require("../config/connections");
+const mysql = require("mysql2");
 
 class Department {
   constructor(id, name) {
@@ -72,6 +73,22 @@ class Department {
           reject(err);
         } else {
           resolve(result.affectedRows > 0);
+        }
+      });
+    });
+  }
+  static viewAllDepartments() {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM departments";
+      connection.query(query, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          console.log("All Departments:");
+          rows.forEach((row) => {
+            console.log(`ID: ${row.id} | Name: ${row.name}`);
+          });
+          resolve();
         }
       });
     });
