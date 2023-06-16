@@ -1,4 +1,4 @@
-const connection = require("../config/connections");
+const connection = require("./config/connections.js");
 const mysql = require("mysql2");
 
 class Employee {

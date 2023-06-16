@@ -1,0 +1,20 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "Employee Tracker Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "employee",
+    "tracker",
+    "management"
+  ],
+  "author": "Saray Sanchez",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^2.3.0",
+    "inquirer": "^8.1.2"
+  }
+}

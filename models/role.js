@@ -1,3 +1,6 @@
+const connection = require("config/connections.js");
+const mysql = require("mysql2");
+
 class Role {
   constructor(id, title, salary, departmentId) {
     this.id = id;
@@ -86,3 +89,5 @@ class Role {
     });
   }
 }
+
+module.export = Role;
